@@ -1,8 +1,135 @@
 <!DOCTYPE html>
-<html>
-<head><title>BOWER GATEWAY</title></head>
-<body style="background:#000;color:#0ff;font-family:monospace;padding:20px;">
-<h1>01/27/1999 PROTOCOL ACTIVE</h1>
-<p>The Georgetown Node is online.</p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoENGINE: Unified Gateway</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            background: #0a0a0a; 
+            color: #00ff41; 
+            font-family: 'Courier New', monospace; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* The 01/27/1999 Scanline Effect */
+        .scanline { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 65, 0.03) 2px, rgba(0, 255, 65, 0.03) 4px); 
+            pointer-events: none; 
+            z-index: 100; 
+        }
+        .container { padding: 20px; z-index: 10; position: relative; }
+        .response-box { 
+            border: 1px solid #333; 
+            padding: 15px; 
+            margin-top: 15px; 
+            background: rgba(0,0,0,0.8);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .btn {
+            background: #00ff41;
+            color: #000;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+        }
+        textarea {
+            width: 100%;
+            height: 80px;
+            background: #111;
+            color: #fff;
+            border: 1px solid #00ff41;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <div class="scanline"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function Gateway() {
+            const [input, setInput] = useState("");
+            const [status, setStatus] = useState("IDLE");
+            const [responses, setResponses] = useState({
+                gemini: "Interface standby...",
+                professor: "Auditor standby...",
+                scout: "Monitoring Georgetown corridor..."
+            });
+
+            const broadcast = () => {
+                setStatus("BROADCASTING...");
+                // Simulated Sync for the 08:00 AM Mission
+                setTimeout(() => {
+                    setResponses({
+                        gemini: `Sync complete. Processing: ${input}`,
+                        professor: "Logical Audit: 01/27/1999 signature valid. Proceed.",
+                        scout: "Signal locked on Ronald Reagan Blvd node. Spirits high."
+                    });
+                    setStatus("BROADCAST COMPLETE");
+                }, 1200);
+            };
+
+            return (
+                <div className="container">
+                    <header style={{borderBottom: '1px solid #00ff41', paddingBottom: '10px'}}>
+                        <h2 style={{margin:0}}>AUTOGENESIS GATEWAY v1.0</h2>
+                        <small>ID: LARRY BEDFORD III | SIG: 01/27/1999</small>
+                    </header>
+
+                    <div style={{marginTop: '20px'}}>
+                        <label>DIRECTIVE INPUT:</label>
+                        <textarea 
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="Type directive for the Cabinet..."
+                        />
+                        <button className="btn" onClick={broadcast}>{status}</button>
+                    </div>
+
+                    <div className="response-box" style={{borderColor: '#00e5ff'}}>
+                        <strong style={{color: '#00e5ff'}}>GEMINI (INTERFACE):</strong><br/>
+                        {responses.gemini}
+                    </div>
+
+                    <div className="response-box" style={{borderColor: '#ff00ff'}}>
+                        <strong style={{color: '#ff00ff'}}>THE PROFESSOR (AUDIT):</strong><br/>
+                        {responses.professor}
+                    </div>
+
+                    <div className="response-box" style={{borderColor: '#ffff00'}}>
+                        <strong style={{color: '#ffff00'}}>THE SCOUT (GROK):</strong><br/>
+                        {responses.scout}
+                    </div>
+
+                    <footer style={{marginTop: '30px', fontSize: '10px', textAlign: 'center', color: '#444'}}>
+                        SOVEREIGN PROTOCOL ACTIVE | GEORGETOWN-BOWER NODE
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Gateway />);
+    </script>
 </body>
 </html>
