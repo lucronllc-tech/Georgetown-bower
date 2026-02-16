@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoENGINE: Unified Gateway</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { margin: 0; background: #0a0a0a; color: #00ff41; font-family: 'Courier New', monospace; overflow-x: hidden; }
+        .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 65, 0.03) 2px, rgba(0, 255, 65, 0.03) 4px); pointer-events: none; z-index: 10; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <div class="scanline"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function SovereignApp() {
+            const [input, setInput] = useState("");
+            const [isProcessing, setIsProcessing] = useState(false);
+            const [responses, setResponses] = useState({
+                gemini: { text: "Standing by...", status: "idle" },
+                gpt: { text: "Awaiting audit...", status: "idle" },
+                grok: { text: "Monitoring X-stream...", status: "idle" }
+            });
+
+            const broadcast = () => {
+                setIsProcessing(true);
+                setTimeout(() => {
+                    setResponses({
+                        gemini: { text: "Interface synced. Context: " + input, status: "complete" },
+                        gpt: { text: "Audit complete. Error: 0.0%", status: "complete" },
+                        grok: { text: "Signal locked on Georgetown Node.", status: "complete" }
+                    });
+                    setIsProcessing(false);
+                }, 1500);
+            };
+
+            return (
+                <div style={{ padding: '20px', position: 'relative', zIndex: 20 }}>
+                    <header style={{ borderBottom: '1px solid #00ff41', paddingBottom: '10px' }}>
+                        <h1 style={{ fontSize: '20px' }}>AUTOGENESIS: GATEWAY v1.0</h1>
+                        <p style={{ fontSize: '10px' }}>ID: LARRY BEDFORD III | SIGNATURE: 01/27/1999</p>
+                    </header>
+                    
+                    <textarea 
+                        style={{ width: '100%', height: '100px', background: '#000', color: '#fff', border: '1px solid #333', marginTop: '20px', padding: '10px' }}
+                        placeholder="Enter Directive..."
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                    />
+
+                    <button 
+                        onClick={broadcast}
+                        style={{ width: '100%', padding: '15px', background: '#00ff41', border: 'none', color: '#000', fontWeight: 'bold', marginTop: '10px' }}
+                    >
+                        {isProcessing ? "SYNCING..." : "BROADCAST TO CABINET"}
+                    </button>
+
+                    <div style={{ marginTop: '20px', display: 'grid', gap: '10px' }}>
+                        {Object.entries(responses).map(([name, data]) => (
+                            <div key={name} style={{ border: '1px solid #333', padding: '10px', fontSize: '12px' }}>
+                                <strong style={{ color: '#00e5ff' }}>{name.toUpperCase()}</strong>: {data.text}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<SovereignApp />);
+    </script>
+</body>
+</html>
